@@ -12,12 +12,19 @@
  * Domain Path:       /languages
  */
 
-// 🟢 یہاں سے [Plugin Security & Foundation] شروع ہو رہا ہے
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
+
+// 🟢 یہاں سے [Plugin Constants (FIXED)] شروع ہو رہا ہے
+// Define constants globally (FIX for activation hook)
+define( 'SSM_PLUGIN_FILE', __FILE__ );
+define( 'SSM_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'SSM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'SSM_PLUGIN_VERSION', '1.0.0' );
+// 🔴 یہاں پر [Plugin Constants (FIXED)] ختم ہو رہا ہے
+
 
 /**
  * Main plugin class
@@ -27,24 +34,15 @@ final class SSM_Inventory_Plugin {
     /**
      * Plugin version.
      */
-    const VERSION = '1.0.0';
+    const VERSION = SSM_PLUGIN_VERSION; // Use the global constant
 
     /**
      * Constructor.
      */
     public function __construct() {
-        $this->define_constants();
+        // Constants are now global, no need to define them here.
         add_action( 'admin_menu', array( $this, 'register_admin_menus' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
-    }
-
-    /**
-     * Define plugin constants.
-     */
-    private function define_constants() {
-        define( 'SSM_PLUGIN_FILE', __FILE__ );
-        define( 'SSM_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-        define( 'SSM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
     }
 
     /**
@@ -121,7 +119,7 @@ final class SSM_Inventory_Plugin {
             // Enqueue Style
             wp_enqueue_style(
                 'ssm-inventory-style',
-                SSM_PLUGIN_URL . 'ssm-inventory-plugin.css',
+                SSM_PLUGIN_URL . 'ssm-inventory-plugin.css', // Uses global constant
                 array(),
                 self::VERSION
             );
@@ -129,8 +127,8 @@ final class SSM_Inventory_Plugin {
             // Enqueue Script
             wp_enqueue_script(
                 'ssm-inventory-script',
-                SSM_PLUGIN_URL . 'ssm-inventory-plugin.js',
-                array( 'jquery', 'wp-element' ), // wp-element for React/Vue, or just jquery
+                SSM_PLUGIN_URL . 'ssm-inventory-plugin.js', // Uses global constant
+                array( 'jquery', 'wp-element' ), 
                 self::VERSION,
                 true // Load in footer
             );
@@ -857,7 +855,7 @@ final class SSM_Inventory_Plugin {
         echo '</template>';
     }
 
-/**
+    /**
      * Renders the Rate Plans page.
      * (Rule 6: Must have root div and template)
      */
@@ -1013,7 +1011,7 @@ final class SSM_Inventory_Plugin {
                             <div class="ssm-form-field">
                                 <label><?php _e( 'Custom Attributes', 'ssm-inventory' ); ?></label>
                                 <div class="ssm-image-grid-preview">
-                                    <div classimg-placeholder"></div>
+                                    <div class="ssm-img-placeholder"></div>
                                     <div class="ssm-img-placeholder"></div>
                                     <div class="ssm-img-placeholder"></div>
                                     <div class="ssm-img-placeholder"></div>
@@ -1038,9 +1036,11 @@ final class SSM_Inventory_Plugin {
             </div> <?php
         echo '</template>';
     }
+
     // 🔴 یہاں پر [Admin Page Render Functions] ختم ہو رہا ہے
 
-}
+} // <-- End of SSM_Inventory_Plugin class
+
 
 /**
  * Initialize the plugin.
@@ -1049,6 +1049,8 @@ function ssm_run_inventory_plugin() {
     new SSM_Inventory_Plugin();
 }
 add_action( 'plugins_loaded', 'ssm_run_inventory_plugin' );
+
+
 // 🟢 یہاں سے [Database Activation Hook] شروع ہو رہا ہے
 
 /**
@@ -1115,8 +1117,8 @@ function ssm_plugin_activate() {
     dbDelta( $sql_rate_plans );
 
     // Add default options
-    add_option( 'ssm_inventory_version', SSM_Inventory_Plugin::VERSION );
+    add_option( 'ssm_inventory_version', SSM_PLUGIN_VERSION ); // Use global constant
 }
-register_activation_hook( SSM_PLUGIN_FILE, 'ssm_plugin_activate' );
+register_activation_hook( SSM_PLUGIN_FILE, 'ssm_plugin_activate' ); // This will now work
 
 // 🔴 یہاں پر [Database Activation Hook] ختم ہو رہا ہے
