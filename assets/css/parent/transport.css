@@ -1,1 +1,224 @@
+/**
+ * BSSMS Parent 'Transport Tracking' Styles
+ * Layout Image: IMG_2961.jpeg
+ */
 
+/* 🟢 یہاں سے [Parent Transport Tracking CSS] شروع ہو رہا ہے */
+
+/* --- Page Structure --- */
+.bssms-parent-transport {
+    padding: 20px;
+    background-color: var(--bssms-color-bg-light);
+    font-family: 'Nunito', sans-serif;
+}
+
+/* --- Stats Grid (Transport) --- */
+.bssms-stats-grid-transport {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.bssms-stats-grid-transport .bssms-stat-card {
+    background: var(--bssms-color-card-bg);
+    border-radius: var(--bssms-border-radius);
+    padding: 15px;
+    box-shadow: var(--bssms-shadow-light);
+    border-left: 4px solid var(--bssms-color-secondary);
+}
+.bssms-stats-grid-transport .card-label {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+.bssms-stats-grid-transport .card-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--bssms-color-text);
+    margin-top: 5px;
+}
+
+/* --- Main Grid --- */
+.bssms-layout-grid-2col-transport {
+    display: grid;
+    grid-template-columns: 2.5fr 1.5fr; /* Left (Map) | Right (Timeline/Details) */
+    gap: 20px;
+}
+
+/* --- Map View (Left Column) --- */
+#widget-map-view {
+    padding: 10px;
+    height: 100%; /* Ensure map widget fills the space */
+    box-sizing: border-box;
+}
+#widget-map-view .widget-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    font-size: 0.9rem;
+}
+.map-placeholder {
+    min-height: 450px; /* Large map area */
+    background-color: #e6f7ff; /* Light map background */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Placeholder for map content as seen in the image */
+    background-image: linear-gradient(135deg, #f0f0f0 25%, transparent 25%), linear-gradient(-135deg, #f0f0f0 25%, transparent 25%), linear-gradient(45deg, #f0f0f0 25%, transparent 25%), linear-gradient(-45deg, #f0f0f0 25%, transparent 25%);
+    background-size: 20px 20px;
+    background-color: #fff;
+}
+.map-placeholder strong {
+    color: var(--bssms-color-primary);
+    font-size: 1.2rem;
+}
+
+/* --- Sidebar (Right Column) --- */
+
+/* Bus Timeline Widget */
+#widget-bus-timeline .timeline-list {
+    list-style: none;
+    padding: 10px 0 0 10px;
+    margin: 0;
+    position: relative;
+    font-size: 0.95rem;
+}
+#widget-bus-timeline .timeline-list::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 4px; /* Center line */
+    height: 100%;
+    width: 2px;
+    background-color: #ddd;
+}
+[dir="rtl"] #widget-bus-timeline .timeline-list {
+    padding-left: 0;
+    padding-right: 10px;
+}
+[dir="rtl"] #widget-bus-timeline .timeline-list::before {
+    left: auto;
+    right: 4px;
+}
+
+.timeline-item {
+    padding: 10px 0 10px 20px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+[dir="rtl"] .timeline-item {
+    padding-left: 0;
+    padding-right: 20px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    border: 2px solid var(--bssms-color-card-bg);
+    z-index: 1;
+}
+[dir="rtl"] .timeline-item::before {
+    left: auto;
+    right: 0;
+}
+
+.timeline-item.active::before {
+    background-color: var(--bssms-color-primary);
+}
+.timeline-item.on-time .status-tag {
+    background-color: var(--bssms-color-success);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+/* Bus & Driver Details Widget */
+#widget-bus-driver-details h4 {
+    font-size: 1.1rem;
+    color: var(--bssms-color-primary);
+    margin-top: 10px;
+}
+#widget-bus-driver-details p {
+    font-size: 0.9rem;
+    margin: 3px 0;
+}
+#widget-bus-driver-details .details-actions {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Child Pickup Code Widget */
+#widget-pickup-code {
+    background-color: #ffeedd; /* Light Orange/Yellow Background */
+    border: 1px solid var(--bssms-color-secondary);
+    text-align: center;
+}
+#widget-pickup-code .qr-code-placeholder {
+    min-height: 100px;
+    background-color: var(--bssms-color-card-bg);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 10px auto;
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+.pickup-code {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--bssms-color-secondary);
+    margin: 10px 0;
+    background: #fff;
+    padding: 5px;
+    border-radius: 4px;
+}
+#widget-pickup-code p {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+#widget-pickup-code .bssms-btn-danger {
+    background-color: var(--bssms-color-danger);
+    color: white;
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 1200px) {
+    .bssms-stats-grid-transport {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 992px) {
+    .bssms-layout-grid-2col-transport {
+        grid-template-columns: 1fr; /* Single column */
+    }
+    #widget-map-view {
+        height: auto;
+    }
+}
+@media (max-width: 576px) {
+    .bssms-stats-grid-transport {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 🔴 یہاں پر [Parent Transport Tracking CSS] ختم ہو رہا ہے */
+
+/* ✅ Syntax verified block end. */
