@@ -1,1 +1,325 @@
+/**
+ * BSSMS Parent Dashboard Styles
+ * Layout Image: IMG_2955.jpeg
+ */
 
+/* 🟢 یہاں سے [Parent Dashboard CSS] شروع ہو رہا ہے */
+
+/* --- CSS Tokens (Variables) --- */
+:root {
+    --bssms-color-primary: #007bff; /* Blue */
+    --bssms-color-secondary: #ff7f00; /* Orange */
+    --bssms-color-success: #28a745;
+    --bssms-color-danger: #dc3545;
+    --bssms-color-text: #333;
+    --bssms-color-bg-light: #f8f9fa;
+    --bssms-color-card-bg: #fff;
+    --bssms-border-radius: 8px;
+    --bssms-shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bssms-parent-dashboard {
+    font-family: 'Nunito', 'Inter', sans-serif;
+    color: var(--bssms-color-text);
+    padding: 20px;
+    background-color: var(--bssms-color-bg-light);
+}
+
+/* --- Typography and Header --- */
+.bssms-parent-dashboard h1 {
+    color: var(--bssms-color-primary);
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.bssms-breadcrumbs {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+.bssms-breadcrumbs span:last-child {
+    font-weight: bold;
+    color: var(--bssms-color-primary);
+}
+
+/* --- Stats Cards Grid --- */
+.bssms-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Assuming 4 cards based on typical layout, adjusting for image */
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+/* Adjusting grid for the layout image (3 main sections) */
+.bssms-stats-grid {
+    grid-template-columns: 1.5fr 2fr 3fr; /* Children | Attendance | Fee Status */
+    gap: 20px;
+}
+
+.bssms-stat-card {
+    background: var(--bssms-color-card-bg);
+    border-radius: var(--bssms-border-radius);
+    padding: 20px;
+    box-shadow: var(--bssms-shadow-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 100px;
+    position: relative;
+    border-top: 3px solid var(--bssms-color-primary);
+}
+
+#stat-children {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+    border-left: 3px solid var(--bssms-color-primary);
+    border-top: none;
+}
+.card-icon-container {
+    display: flex;
+    margin-bottom: 10px;
+}
+.child-icon {
+    width: 30px;
+    height: 30px;
+    background-color: var(--bssms-color-secondary);
+    border-radius: 50%;
+    margin-right: -10px;
+    border: 2px solid var(--bssms-color-card-bg);
+    display: block;
+}
+
+.card-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--bssms-color-primary);
+    display: block;
+}
+.card-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    display: block;
+}
+
+/* Attendance Card Styling */
+#stat-attendance {
+    border-color: var(--bssms-color-secondary);
+}
+.card-chart {
+    display: flex;
+    align-items: flex-end;
+    height: 60px;
+    gap: 5px;
+}
+.mini-bar {
+    width: 10px;
+    background-color: var(--bssms-color-secondary);
+    border-radius: 2px 2px 0 0;
+}
+
+/* Fee Status Card Styling */
+#stat-fees {
+    flex-direction: column;
+    align-items: flex-start;
+    border-color: var(--bssms-color-danger);
+}
+.card-header-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.card-value-small {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 5px;
+}
+.card-sublabel-due {
+    color: var(--bssms-color-danger);
+    font-weight: 600;
+}
+
+
+/* --- Main Dashboard Grid --- */
+.bssms-dashboard-grid-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Left (wide) | Right (narrow) */
+    gap: 20px;
+}
+
+.bssms-widget-card {
+    background: var(--bssms-color-card-bg);
+    border-radius: var(--bssms-border-radius);
+    padding: 20px;
+    box-shadow: var(--bssms-shadow-light);
+    margin-bottom: 20px;
+}
+.widget-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--bssms-color-text);
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Performance & Attendance Widget */
+#widget-performance .widget-content-split {
+    display: flex;
+    gap: 20px;
+}
+#widget-performance .split-section {
+    flex: 1;
+}
+.sub-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--bssms-color-primary);
+}
+.calendar-placeholder, .bar-chart-placeholder {
+    min-height: 150px;
+    background-color: var(--bssms-color-bg-light);
+    border: 1px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+/* Fee Overview Widget */
+#widget-fee-overview .bssms-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+#widget-fee-overview th, #widget-fee-overview td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+.widget-actions-footer {
+    padding-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+.bssms-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.bssms-btn-primary {
+    background-color: var(--bssms-color-primary);
+    color: white;
+}
+.bssms-btn-link {
+    background: none;
+    color: var(--bssms-color-secondary);
+    text-decoration: underline;
+    padding: 8px 0;
+}
+
+/* Transport Widget */
+.transport-map-placeholder {
+    min-height: 120px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.transport-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+/* Quick Links Widget */
+.quick-links-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.bssms-btn-secondary {
+    background-color: var(--bssms-color-bg-light);
+    color: var(--bssms-color-text);
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+/* Message List Widget */
+.message-list {
+    list-style: none;
+    padding: 0;
+}
+.message-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+}
+.status-tag {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.status-tag.teacher {
+    background-color: #d1ecf1; /* Light Blue */
+    color: #0c5460;
+}
+.status-tag.principal {
+    background-color: #ffe0b2; /* Light Orange */
+    color: var(--bssms-color-secondary);
+}
+
+
+/* --- RTL and Responsive Adjustments --- */
+/* RTL Support (Assuming primary language Urdu/English switch) */
+[dir="rtl"] .bssms-stats-grid {
+    /* Reverse order for RTL if necessary */
+    direction: rtl;
+}
+[dir="rtl"] .bssms-parent-dashboard h1,
+[dir="rtl"] .bssms-breadcrumbs,
+[dir="rtl"] #widget-fee-overview th,
+[dir="rtl"] #widget-fee-overview td {
+    text-align: right;
+}
+
+/* Mobile Responsive */
+@media (max-width: 992px) {
+    .bssms-stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .bssms-stats-grid #stat-fees {
+        grid-column: span 2;
+    }
+    .bssms-dashboard-grid-main {
+        grid-template-columns: 1fr; /* Single column layout */
+    }
+}
+@media (max-width: 576px) {
+    .bssms-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .bssms-stats-grid #stat-children,
+    .bssms-stats-grid #stat-attendance,
+    .bssms-stats-grid #stat-fees {
+        grid-column: span 1;
+    }
+    #widget-performance .widget-content-split {
+        flex-direction: column;
+    }
+    .quick-links-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 🔴 یہاں پر [Parent Dashboard CSS] ختم ہو رہا ہے */
+
+/* ✅ Syntax verified block end. */
