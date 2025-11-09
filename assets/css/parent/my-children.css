@@ -1,1 +1,224 @@
+/**
+ * BSSMS Parent 'My Children' Styles
+ * Layout Image: IMG_2962.jpeg
+ */
 
+/* 🟢 یہاں سے [Parent My Children CSS] شروع ہو رہا ہے */
+
+/* --- Page Structure --- */
+.bssms-parent-my-children {
+    padding: 20px;
+    background-color: var(--bssms-color-bg-light);
+    font-family: 'Nunito', sans-serif;
+}
+
+/* --- Toolbar and Stats Bar --- */
+.bssms-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--bssms-color-card-bg);
+    border-radius: var(--bssms-border-radius);
+    margin-bottom: 20px;
+    box-shadow: var(--bssms-shadow-light);
+}
+
+.bssms-toolbar .search-box {
+    position: relative;
+    flex-grow: 1;
+    max-width: 300px;
+    margin-right: 20px;
+}
+.bssms-toolbar input[type="text"] {
+    width: 100%;
+    padding: 8px 10px 8px 30px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.bssms-toolbar .icon-search {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.bssms-stats-bar {
+    display: flex;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    align-items: center;
+}
+.bssms-stats-bar .stat-item {
+    padding: 5px 15px;
+    background-color: #e9ecef;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+.bssms-stats-bar strong {
+    font-weight: 700;
+    color: var(--bssms-color-primary);
+}
+.bssms-stats-bar button {
+    margin-left: auto;
+}
+
+/* --- Children Cards Grid --- */
+.bssms-children-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.bssms-child-card {
+    background-color: var(--bssms-color-card-bg);
+    border-radius: var(--bssms-border-radius);
+    box-shadow: var(--bssms-shadow-light);
+    border-top: 5px solid var(--bssms-color-secondary);
+    overflow: hidden;
+}
+
+.bssms-child-card .card-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+.bssms-child-card .child-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 3px solid var(--bssms-color-primary);
+}
+.bssms-child-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--bssms-color-text);
+}
+.bssms-child-card .child-info span {
+    display: block;
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+.bssms-child-card .status-tag {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    background-color: var(--bssms-color-success);
+    color: white;
+    border-radius: 3px;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.bssms-child-card .card-body {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+.bssms-child-card .card-body h4 {
+    font-size: 1.5rem;
+    color: var(--bssms-color-danger); /* Highlighting Due Fees */
+    margin: 0 0 5px 0;
+    font-weight: 700;
+}
+.bssms-child-card .sub-label {
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.bssms-child-card .quick-info-list {
+    list-style: none;
+    padding: 10px 0 0 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    font-size: 0.9rem;
+}
+.bssms-child-card .quick-info-list li {
+    display: flex;
+    align-items: center;
+    color: var(--bssms-color-text);
+}
+.bssms-child-card .quick-info-list .icon-alert,
+.bssms-child-card .quick-info-list .icon-fee {
+    /* Placeholder for icons */
+    margin-right: 5px;
+    width: 12px;
+    height: 12px;
+    background-color: var(--bssms-color-primary);
+    border-radius: 2px;
+}
+
+.bssms-child-card .card-footer {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+.bssms-child-card .card-footer .bssms-btn {
+    flex-grow: 1;
+    font-size: 0.9rem;
+}
+
+/* --- Footer Info --- */
+.bssms-page-footer-info {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #6c757d;
+    padding-top: 15px;
+}
+.bssms-page-footer-info span {
+    margin: 0 10px;
+}
+
+
+/* --- RTL and Responsive Adjustments --- */
+[dir="rtl"] .bssms-toolbar .search-box {
+    margin-left: 20px;
+    margin-right: 0;
+}
+[dir="rtl"] .bssms-toolbar .icon-search {
+    left: auto;
+    right: 10px;
+}
+[dir="rtl"] .bssms-child-card .child-avatar {
+    margin-right: 0;
+    margin-left: 15px;
+}
+
+@media (max-width: 768px) {
+    .bssms-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .bssms-toolbar .search-box {
+        max-width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .bssms-stats-bar {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .bssms-stats-bar .stat-item {
+        flex-basis: 48%;
+    }
+    .bssms-stats-bar button {
+        margin-left: 0;
+        width: 100%;
+        margin-top: 10px;
+    }
+    .bssms-children-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 🔴 یہاں پر [Parent My Children CSS] ختم ہو رہا ہے */
+
+/* ✅ Syntax verified block end. */
