@@ -1,1 +1,184 @@
+/**
+ * BSSMS Parent 'Results & Performance' Styles
+ * Layout Image: IMG_2959.jpeg
+ */
 
+/* 🟢 یہاں سے [Parent Results CSS] شروع ہو رہا ہے */
+
+/* --- Page Structure --- */
+.bssms-parent-results {
+    padding: 20px;
+    background-color: var(--bssms-color-bg-light);
+    font-family: 'Nunito', sans-serif;
+}
+
+/* --- Results Stats Grid --- */
+.bssms-stats-grid-results {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.bssms-stats-grid-results .bssms-stat-card {
+    background: var(--bssms-color-card-bg);
+    border-radius: var(--bssms-border-radius);
+    padding: 15px;
+    box-shadow: var(--bssms-shadow-light);
+    border-left: 4px solid var(--bssms-color-primary);
+}
+
+.bssms-stats-grid-results .card-label {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+.bssms-stats-grid-results .card-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--bssms-color-text);
+    margin-top: 5px;
+}
+.bssms-stats-grid-results .card-value .grade {
+    font-size: 1rem;
+    color: var(--bssms-color-success);
+    font-weight: 600;
+}
+
+/* --- Main Grid --- */
+.bssms-layout-grid-2col-results {
+    display: grid;
+    grid-template-columns: 3fr 1.5fr; /* Left (Charts/Invoices) | Right (Sidebar) */
+    gap: 20px;
+}
+
+/* --- Subject Proficiency Widget (Left Column) --- */
+#widget-subject-proficiency .widget-content-split {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.5fr; /* Pie | Bar | Insights */
+    gap: 20px;
+    margin-top: 10px;
+}
+#subject-pie-chart, #subject-bar-chart {
+    padding-right: 15px;
+    border-right: 1px solid #eee;
+}
+[dir="rtl"] #subject-pie-chart,
+[dir="rtl"] #subject-bar-chart {
+    border-right: none;
+    border-left: 1px solid #eee;
+    padding-right: 0;
+    padding-left: 15px;
+}
+
+.chart-placeholder-pie, .chart-placeholder-bar {
+    min-height: 200px;
+    background-color: #f8f8f8;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+#subject-insights .insights-list {
+    list-style: disc;
+    padding-left: 20px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+[dir="rtl"] #subject-insights .insights-list {
+    list-style: arabic-indic; /* Placeholder for RTL list style */
+    padding-left: 0;
+    padding-right: 20px;
+}
+#subject-insights .widget-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* --- Outstanding Invoices Table --- */
+#widget-outstanding-invoices-results .bssms-data-table th,
+#widget-outstanding-invoices-results .bssms-data-table td {
+    font-size: 0.85rem;
+}
+
+/* --- Sidebar Widgets (Right Column) --- */
+#widget-receipts-history-results .user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+#widget-receipts-history-results .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+#widget-receipts-history-results .info-text h4 {
+    margin: 0;
+    font-size: 1rem;
+}
+#widget-receipts-history-results .receipt-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+#widget-receipts-history-results .receipt-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dotted #eee;
+    font-size: 0.9rem;
+}
+
+/* Secure Payment (Sidebar) */
+#widget-secure-payment-results .payment-methods {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+#widget-secure-payment-results img {
+    max-height: 25px;
+    opacity: 0.7;
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 1200px) {
+    .bssms-stats-grid-results {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .bssms-stats-grid-results .bssms-stat-card:nth-child(5) { /* Rank */
+        grid-column: span 3;
+    }
+}
+
+@media (max-width: 992px) {
+    .bssms-layout-grid-2col-results {
+        grid-template-columns: 1fr; /* Single column */
+    }
+    #widget-subject-proficiency .widget-content-split {
+        grid-template-columns: 1fr; /* Stack charts */
+    }
+    #subject-pie-chart, #subject-bar-chart {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+    }
+}
+@media (max-width: 576px) {
+    .bssms-stats-grid-results {
+        grid-template-columns: 1fr;
+    }
+    .bssms-stats-grid-results .bssms-stat-card {
+        grid-column: span 1;
+    }
+}
+
+/* 🔴 یہاں پر [Parent Results CSS] ختم ہو رہا ہے */
+
+/* ✅ Syntax verified block end. */
