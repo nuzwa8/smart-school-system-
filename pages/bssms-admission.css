@@ -1,0 +1,212 @@
+/**
+ * bssms-admission.css
+ * داخلہ فارم (Admission Form) کے لیے سرشار اسٹائلز۔
+ * قاعدہ 6: Namespace (.bssms), Tokens, Responsive
+ */
+
+/* 🟢 یہاں سے Admission Page Styles شروع ہو رہے ہیں */
+
+/* --- فارم ہیڈر اسٹائلنگ (لے آؤٹ کے مطابق) --- */
+#bssms-admission-root h2 {
+    /* ہیڈر کو بڑا اور رنگین بنائیں */
+    background: linear-gradient(135deg, #1abc9c, #3498db);
+    color: white;
+    padding: var(--bssms-spacing-lg);
+    border-radius: 8px;
+    margin-bottom: var(--bssms-spacing-md);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* --- فارم گرڈ لے آؤٹ --- */
+.bssms-form-grid {
+    display: grid;
+    /* لے آؤٹ کے مطابق 3 کالم اور پھر فل وڈتھ */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--bssms-spacing-md);
+    padding: var(--bssms-spacing-lg); /* بائی ڈیفالٹ کارڈ پیڈنگ کافی ہے */
+}
+
+/* فل وڈتھ سیکشنز */
+.bssms-col-span-full {
+    grid-column: 1 / -1;
+}
+
+/* --- سیکشن کارڈز --- */
+.bssms-card-section {
+    padding: var(--bssms-spacing-sm);
+    border: 1px solid var(--bssms-color-border);
+    border-radius: 6px;
+}
+
+.bssms-card-section .section-title {
+    color: var(--bssms-color-primary);
+    margin-top: 0;
+    margin-bottom: var(--bssms-spacing-md);
+    border-bottom: 1px solid var(--bssms-color-border);
+    padding-bottom: var(--bssms-spacing-xs);
+}
+
+/* --- اردو ان پٹ اسٹائل --- */
+.bssms-input-ur {
+    /* اردو فیلڈز کو ڈس ایبل / ریڈ اونلی رکھیں اور اردو فانٹ استعمال کریں */
+    background-color: var(--bssms-bg-page);
+    color: var(--bssms-color-text);
+    border: 1px dashed var(--bssms-color-border);
+    font-family: 'Noto Nastaliq Urdu', Tahoma, sans-serif;
+    direction: rtl; /* اردو کے لیے RTL */
+    margin-top: var(--bssms-spacing-xs);
+    font-weight: 700;
+}
+
+.bssms-hint {
+    display: block;
+    font-size: 11px;
+    color: #888;
+    margin-top: -5px;
+}
+
+/* --- ریڈیو بٹن/جنڈر اسٹائل (لے آؤٹ کے مطابق ٹوگل) --- */
+.bssms-radio-group label {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid var(--bssms-color-border);
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: var(--bssms-spacing-sm);
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.bssms-radio-group input[type="radio"] {
+    display: none; /* اصلی ریڈیو بٹن کو چھپائیں */
+}
+
+.bssms-radio-group input[type="radio"]:checked + label {
+    background-color: var(--bssms-color-primary);
+    color: var(--bssms-bg-card); /* White text */
+    border-color: var(--bssms-color-primary);
+}
+
+/* --- فیس ڈسپلے / نمبر ٹو ورڈز اسٹائل --- */
+.bssms-fee-words {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--bssms-color-secondary);
+    margin: var(--bssms-spacing-xs) 0 0 0;
+    padding-right: var(--bssms-spacing-sm);
+    border-right: 3px solid var(--bssms-color-secondary);
+    font-family: 'Noto Nastaliq Urdu', Tahoma, sans-serif;
+    direction: rtl;
+}
+
+.bssms-due-amount {
+    color: var(--bssms-color-error);
+    border-right-color: var(--bssms-color-error);
+}
+
+/* بقایا رقم والے گروپ کو نمایاں کریں */
+.bssms-form-group.has-due .bssms-input-fee,
+.bssms-form-group.has-due .bssms-fee-display {
+    border-color: var(--bssms-color-error);
+    background-color: #ffe8e8; /* ہلکا گلابی پس منظر */
+}
+
+/* --- فیچر کارڈز اور فلیکس --- */
+.bssms-row-flex {
+    display: flex;
+    gap: var(--bssms-spacing-lg);
+}
+
+.bssms-feature-card {
+    flex: 1;
+    padding: var(--bssms-spacing-md);
+    border: 1px dashed var(--bssms-color-border);
+    border-radius: 6px;
+}
+
+.bssms-feature-card .bssms-btn {
+    width: 100%;
+    margin-top: var(--bssms-spacing-sm);
+}
+
+/* --- فارم ایکشنز --- */
+.bssms-form-actions {
+    display: flex;
+    gap: var(--bssms-spacing-md);
+    justify-content: flex-end; /* دائیں جانب بٹن */
+    border-top: 1px solid var(--bssms-color-border);
+    padding-top: var(--bssms-spacing-md);
+}
+
+/* --- کامیابی کا کارڈ اسٹائل (لے آؤٹ کے مطابق) --- */
+.bssms-success-card {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    max-width: 300px;
+    z-index: 1000;
+    background: linear-gradient(135deg, #3498db, #2ecc71); /* لے آؤٹ کا رنگ */
+    color: white;
+    padding: var(--bssms-spacing-lg);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.bssms-success-title {
+    margin-top: 0;
+    font-size: 1.2em;
+}
+
+.bssms-progress-bar {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    height: 25px;
+    margin-top: var(--bssms-spacing-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+.bssms-progress-fill {
+    height: 100%;
+    background-color: white;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.bssms-progress-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 25px;
+    font-weight: bold;
+    color: #1abc9c; /* گہرے رنگ کا متن */
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* --- رسپانسیو سپورٹ --- */
+@media (max-width: 782px) {
+    .bssms-form-grid {
+        grid-template-columns: 1fr; /* چھوٹے سکرین پر سنگل کالم */
+    }
+
+    .bssms-row-flex {
+        flex-direction: column; /* فیچر کارڈز کو عمودی طور پر رکھیں */
+    }
+
+    .bssms-form-actions {
+        justify-content: space-between;
+    }
+}
+
+/* --- ڈارک موڈ ایڈجسٹمنٹس --- */
+body.bssms-dark-mode .bssms-input-ur {
+    background-color: #1e1e1e;
+}
+
+body.bssms-dark-mode .bssms-form-group.has-due .bssms-input-fee,
+body.bssms-dark-mode .bssms-form-group.has-due .bssms-fee-display {
+    background-color: #4a2d2d; /* ڈارک موڈ میں گہرا سرخ پس منظر */
+}
+
+/* 🔴 یہاں پر Admission Page Styles ختم ہو رہے ہیں */
+
+/* ✅ Syntax verified block end */
