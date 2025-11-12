@@ -403,3 +403,102 @@ public static function handle_delete_course() {
 // 🔴 یہاں پر مزید (AJAX) ہینڈلرز بعد میں شامل ہوں گے۔
 
 // ✅ Syntax verified block end
+/** Part 13 — Settings Page: AJAX Handlers for Settings Management */
+
+// BSSMS_Ajax کلاس کے اندر، handle_save_settings() اور نیا handle_reset_defaults() فنکشن شامل کریں۔
+
+// handle_save_settings() فنکشن کا نیا اور مکمل کوڈ (پُرانے کی جگہ پر):
+public static function handle_save_settings() {
+    check_ajax_referer( 'bssms_save_settings', 'nonce' );
+
+    // قاعدہ 4: current_user_can() (صرف ایڈمن)
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message_ur' => 'آپ کے پاس ترتیبات کو محفوظ کرنے کی اجازت نہیں ہے۔' ) );
+    }
+
+    $updated_settings = 0;
+    
+    // 1. عمومی ترتیبات (General)
+    $general_keys = ['academy_name', 'admin_email', 'default_currency', 'date_format'];
+    foreach ($general_keys as $key) {
+        if (isset($_POST[$key])) {
+            $value = sanitize_text_field( wp_unslash( $_POST[$key] ) );
+            if (BSSMS_DB::update_setting($key, $value)) $updated_settings++;
+        }
+    }
+
+    // 2. تھیم اور رنگ (Theme & Branding)
+    $theme_mode = isset($_POST['theme_mode']) ? sanitize_text_field(wp_unslash($_POST['theme_mode'])) : 'light';
+    if (BSSMS_DB::update_setting('theme_mode', $theme_mode)) $updated_settings++;
+
+    $primary_color = isset($_POST['primary_color']) ? sanitize_hex_color(wp_unslash($_POST['primary_color'])) : '#0073aa';
+    if (BSSMS_DB::update_setting('primary_color', $primary_color)) $updated_settings++;
+    
+    // 3. زبان کی ترتیبات (Language)
+    $bilingual = (isset($_POST['enable_bilingual_labels']) && $_POST['enable_bilingual_labels'] === 'on') ? 'on' : 'off';
+    if (BSSMS_DB::update_setting('enable_bilingual_labels', $bilingual)) $updated_settings++;
+
+    $auto_translate = (isset($_POST['enable_auto_urdu_translation']) && $_POST['enable_auto_urdu_translation'] === 'on') ? 'on' : 'off';
+    if (BSSMS_DB::update_setting('enable_auto_urdu_translation', $auto_translate)) $updated_settings++;
+
+    // 4. لوگو مینجمنٹ
+    $logo_url = sanitize_url( wp_unslash( $_POST['logo_url'] ?? '' ) );
+    if (BSSMS_DB::update_setting('logo_url', $logo_url)) $updated_settings++;
+    
+    // 5. لوگو اپ لوڈ (اگر فائل موجود ہو)
+    if ( ! empty( $_FILES['logo_file'] ) && $_FILES['logo_file']['size'] > 0) {
+        require_once( ABSPATH . 'wp-admin/includes/image.php' );
+        require_once( ABSPATH . 'wp-admin/includes/file.php' );
+        require_once( ABSPATH . 'wp-admin/includes/media.php' );
+
+        $upload_overrides = array( 'test_form' => false );
+        $movefile = wp_handle_upload( $_FILES['logo_file'], $upload_overrides );
+
+        if ( $movefile && empty( $movefile['error'] ) ) {
+            BSSMS_DB::update_setting('logo_url', $movefile['url']);
+            $updated_settings++;
+        } else {
+             // فائل اپ لوڈ کی خرابی کی صورت میں بھی دیگر ترتیبات کو محفوظ کر کے success بھیجیں
+             wp_send_json_error( array( 'message_ur' => 'لوگو اپ لوڈ کرنے میں خرابی: ' . $movefile['error'], 'updated_count' => $updated_settings ) );
+        }
+    }
+
+
+    wp_send_json_success( array( 
+        'message_ur' => 'ترتیبات کامیابی سے محفوظ کر لی گئیں۔',
+        'updated_count' => $updated_settings,
+        'new_theme_mode' => $theme_mode,
+    ) );
+}
+
+/**
+ * تمام ڈیفالٹ ترتیبات کو دوبارہ سیٹ کرنے کا AJAX ہینڈلر۔
+ */
+public static function handle_reset_defaults() {
+     check_ajax_referer( 'bssms_reset_defaults', 'nonce' ); // نیا Nonce: bssms_reset_defaults
+
+    // صرف ایڈمن کو اجازت
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message_ur' => 'آپ کے پاس ترتیبات ری سیٹ کرنے کی اجازت نہیں ہے۔' ) );
+    }
+
+    // تمام ترتیبات کو حذف کر دیں تاکہ وہ DB Helper میں موجود ڈیفالٹ ویلیوز پر واپس آ جائیں
+    global $wpdb;
+    $table_settings = $wpdb->prefix . 'bssms_settings';
+    
+    // صرف وہ ترتیبات حذف کریں جو ہم نے بنائی ہیں، نہ کہ کورسز/ایڈمیشنز
+    $keys_to_reset = ['academy_name', 'admin_email', 'default_currency', 'date_format', 'theme_mode', 'logo_url', 'enable_bilingual_labels', 'enable_auto_urdu_translation', 'primary_color'];
+    
+    // قاعدہ 4: $wpdb->prepare() queries
+    $placeholders = implode( ', ', array_fill( 0, count( $keys_to_reset ), '%s' ) );
+    $deleted_rows = $wpdb->query( $wpdb->prepare( "DELETE FROM $table_settings WHERE setting_key IN ($placeholders)", $keys_to_reset ) );
+
+    wp_send_json_success( array( 
+        'message_ur' => 'تمام ترتیبات کو کامیابی سے فیکٹری ڈیفالٹس پر ری سیٹ کر دیا گیا ہے۔',
+        'deleted_count' => $deleted_rows,
+    ) );
+}
+
+// 🔴 یہاں پر مزید (AJAX) ہینڈلرز ختم ہو رہے ہیں۔
+
+// ✅ Syntax verified block end
