@@ -278,3 +278,43 @@ public function render_courses_setup_page() {
 }
 
 // ✅ Syntax verified block end
+/** Part 14 — Settings Page: Core File Update for Dedicated Page & AJAX */
+
+// BSSMS_Core کلاس کے اندر، includes() فنکشن کا نیا اور مکمل کوڈ (پُرانے کی جگہ پر):
+// قاعدہ 30: ہر صفحہ کی الگ فائلیں
+private function includes() {
+    // پیج لاجک فائلیں شامل کریں (قاعدہ 30 کے مطابق)
+    require_once BSSMS_PATH . 'pages/bssms-admission-page.php';
+    require_once BSSMS_PATH . 'pages/bssms-students-list-page.php';
+    require_once BSSMS_PATH . 'pages/bssms-courses-setup-page.php';
+    require_once BSSMS_PATH . 'pages/bssms-settings-page.php'; // نیا پیج شامل
+}
+
+// BSSMS_Core کلاس کے اندر، hooks() فنکشن کا نیا اور مکمل کوڈ (پُرانے کی جگہ پر):
+private function hooks() {
+    // (PHP) ایڈمن مینو اور اثاثے لوڈ کریں۔
+    add_action( 'admin_menu', array( $this, 'add_plugin_menu' ) );
+    add_action( 'admin_enqueue_scripts', array( 'BSSMS_Assets', 'enqueue_admin_assets' ) );
+
+    // (AJAX) ہینڈلر کو رجسٹر کریں۔
+    add_action( 'wp_ajax_bssms_save_admission', array( 'BSSMS_Ajax', 'handle_save_admission' ) );
+    add_action( 'wp_ajax_bssms_fetch_students', array( 'BSSMS_Ajax', 'handle_fetch_students' ) );
+    add_action( 'wp_ajax_bssms_translate_text', array( 'BSSMS_Ajax', 'handle_translate_text' ) );
+    add_action( 'wp_ajax_bssms_delete_admission', array( 'BSSMS_Ajax', 'handle_delete_admission' ) );
+    
+    add_action( 'wp_ajax_bssms_fetch_courses', array( 'BSSMS_Ajax', 'handle_fetch_courses' ) );
+    add_action( 'wp_ajax_bssms_save_course', array( 'BSSMS_Ajax', 'handle_save_course' ) );
+    add_action( 'wp_ajax_bssms_delete_course', array( 'BSSMS_Ajax', 'handle_delete_course' ) );
+    
+    // ترتیبات کے نئے AJAX ہینڈلرز
+    add_action( 'wp_ajax_bssms_save_settings', array( 'BSSMS_Ajax', 'handle_save_settings' ) ); // پہلے سے موجود تھا لیکن اب اصلی لاجک یہاں ہے۔
+    add_action( 'wp_ajax_bssms_reset_defaults', array( 'BSSMS_Ajax', 'handle_reset_defaults' ) ); // نیا AJAX ہینڈلر
+}
+
+// BSSMS_Core کلاس کے اندر، render_settings_page() فنکشن کا نیا اور مکمل کوڈ (پُرانے کی جگہ پر):
+public function render_settings_page() {
+    // یہاں صرف سرشار کلاس کا فنکشن کال ہو گا
+    BSSMS_Settings_Page::render_page();
+}
+
+// ✅ Syntax verified block end
