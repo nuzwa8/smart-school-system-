@@ -335,3 +335,80 @@ private static function localize_data() {
 }
 
 // ✅ Syntax verified block end
+/** Part 19 — Dashboard: Localization Update for Dashboard Data Action */
+
+// BSSMS_Assets کلاس کے اندر، localize_data() فنکشن کا نیا اور مکمل کوڈ (پُرانے کی جگہ پر):
+private static function localize_data() {
+    $nonce_data = array();
+    
+    // قاعدہ 15: تمام Slugs/Nonces کو ایک جگہ سے ریکارڈ کریں۔
+    $pages = array(
+        'dashboard' => 'bssms-dashboard', // ڈیش بورڈ سلگ شامل کریں
+        'admission' => 'bssms-admission',
+        'students-list' => 'bssms-students-list',
+        'courses-setup' => 'bssms-courses-setup',
+        'settings' => 'bssms-settings',
+    );
+    
+    // قاعدہ 12: Page-Link Validation (PHP ↔ JS)
+    $ajax_actions = array(
+        'save_admission' => 'bssms_save_admission',
+        'fetch_students' => 'bssms_fetch_students',
+        'save_settings' => 'bssms_save_settings',
+        'fetch_courses' => 'bssms_fetch_courses',
+        'translate_text' => 'bssms_translate_text',
+        'delete_admission' => 'bssms_delete_admission',
+        'save_course' => 'bssms_save_course',
+        'delete_course' => 'bssms_delete_course',
+        'reset_defaults' => 'bssms_reset_defaults',
+        'fetch_dashboard_data' => 'bssms_fetch_dashboard_data', // نیا AJAX ایکشن
+    );
+    
+    // تمام Nonces کو محفوظ طریقے سے (JavaScript) میں بھیجیں
+    foreach ( $ajax_actions as $key => $action ) {
+        $nonce_data[ $key . '_nonce' ] = wp_create_nonce( $action );
+    }
+
+    // تمام کورسز اور ترتیبات حاصل کریں
+    $all_courses = BSSMS_DB::get_all_active_courses();
+    $all_settings = BSSMS_DB::get_settings_bulk([
+        'academy_name', 'admin_email', 'default_currency', 'date_format', 'theme_mode', 
+        'logo_url', 'enable_bilingual_labels', 'enable_auto_urdu_translation', 'primary_color'
+    ]);
+    
+    // ضروری ڈیٹا لوکلائز کریں۔
+    wp_localize_script(
+        'bssms-common-scripts',
+        'bssms_data',
+        array(
+            'ajax_url' => admin_url( 'admin-ajax.php' ),
+            'nonces'   => $nonce_data,
+            'pages'    => $pages,
+            'actions'  => $ajax_actions,
+            'current_user_id' => get_current_user_id(),
+            'user_can_manage' => current_user_can( 'bssms_manage_admissions' ),
+            'theme_mode' => $all_settings['theme_mode'],
+            'language_mode' => $all_settings['enable_bilingual_labels'],
+            'currency' => $all_settings['default_currency'], // کرنسی کوڈ شامل کریں
+            'courses' => $all_courses,
+            'settings' => $all_settings,
+            // قاعدہ 8: مختصر یوزر میسجز
+            'messages' => array(
+                'saving' => 'معلومات محفوظ کی جا رہی ہیں، براہ کرم انتظار کریں۔',
+                'save_success' => 'کامیابی سے محفوظ ہو گیا۔',
+                'save_error' => 'محفوظ کرنے میں خرابی پیش آئی۔',
+                'missing_fields' => 'براہ کرم تمام ضروری فیلڈز کو پُر کریں۔',
+                'translation_error' => 'ترجمہ سروس تک رسائی میں خرابی۔',
+                'fee_mismatch' => 'بقایا رقم منفی نہیں ہو سکتی۔',
+                'delete_confirm' => 'کیا آپ واقعی اس ریکارڈ کو حذف کرنا چاہتے ہیں؟',
+                'course_delete_confirm' => 'کیا آپ واقعی اس کورس کو حذف کرنا چاہتے ہیں؟',
+                'delete_success' => 'ریکارڈ کامیابی سے حذف ہو گیا۔',
+                'reset_confirm' => '⚠️ کیا آپ واقعی تمام ترتیبات کو ڈیفالٹ پر ری سیٹ کرنا چاہتے ہیں؟',
+                'reset_success' => 'ترتیبات کامیابی سے ڈیفالٹ پر ری سیٹ کر دی گئیں۔',
+                'dashboard_loading' => 'ڈیش بورڈ ڈیٹا لوڈ ہو رہا ہے...',
+            ),
+        )
+    );
+}
+
+// ✅ Syntax verified block end
