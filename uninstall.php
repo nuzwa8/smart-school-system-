@@ -38,7 +38,5 @@ if ( $admin_role ) {
 
 // 3. پلگ اِن کی Options کو حذف کریں۔
 delete_option( 'bssms_version' );
-delete_option( 'bssms_theme_mode' );
-// مزید ترتیبات یہاں حذف کی جا سکتی ہیں۔
 
 // ✅ Syntax verified block end

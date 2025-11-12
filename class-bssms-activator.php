@@ -8,9 +8,6 @@ class BSSMS_Activator {
 
 	/**
 	 * پلگ اِن کو ایکٹیویٹ کریں۔
-	 *
-	 * @global wpdb $wpdb
-	 * @return void
 	 */
 	public static function activate() {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -119,7 +116,7 @@ class BSSMS_Activator {
 		global $wpdb;
 		$table_courses = $wpdb->prefix . 'bssms_courses';
 
-		// ڈیمو کورسز (فیس تبدیل کرنے کی آپشن کسی کے پاس نہیں ہوگی)
+		// ڈیمو کورسز
 		$courses = array(
 			array( 'AI Master', 'اے آئی ماسٹر', 50000 ),
 			array( 'Data Science Pro', 'ڈیٹا سائنس پرو', 40000 ),
@@ -151,6 +148,7 @@ class BSSMS_Activator {
 		// ڈیفالٹ ترتیبات
 		BSSMS_DB::update_setting( 'theme_mode', 'light' );
 		BSSMS_DB::update_setting( 'language', 'ur_en' ); // اردو/انگلش موڈ
+        BSSMS_DB::update_setting( 'primary_color', '#0073aa' );
 	}
 }
 
