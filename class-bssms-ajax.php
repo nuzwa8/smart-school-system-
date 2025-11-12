@@ -303,3 +303,103 @@ public static function handle_delete_admission() {
 // 🔴 یہاں پر مزید (AJAX) ہینڈلرز بعد میں شامل ہوں گے۔
 
 // ✅ Syntax verified block end
+/** Part 9 — Courses Setup: AJAX Handlers for CRUD Operations */
+
+// BSSMS_Ajax کلاس کے اندر، نئے handle_fetch_courses(), handle_save_course(), اور handle_delete_course() فنکشنز شامل کریں۔
+
+/**
+ * کورسز کی فہرست حاصل کرنے کا AJAX ہینڈلر۔
+ */
+public static function handle_fetch_courses() {
+    check_ajax_referer( 'bssms_fetch_courses', 'nonce' );
+
+    // قاعدہ 4: current_user_can()
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message_ur' => 'آپ کے پاس کورسز کی فہرست دیکھنے کی اجازت نہیں ہے۔', 'message_en' => 'You do not have permission to view courses list.' ) );
+    }
+
+    // فلٹر دلائل حاصل کریں اور سینیٹائز کریں
+    $search = sanitize_text_field( wp_unslash( $_POST['search'] ?? '' ) );
+    $status = sanitize_text_field( wp_unslash( $_POST['status'] ?? '' ) ); // active/inactive
+
+    // ڈیٹا بیس سے ڈیٹا لائیں
+    $courses = BSSMS_DB::get_all_courses_with_filters( $search, $status );
+
+    $response = array(
+        'success' => true,
+        'message_ur' => 'کورسز کی فہرست لوڈ ہو گئی ہے۔',
+        'courses' => $courses,
+    );
+
+    wp_send_json_success( $response );
+}
+
+/**
+ * نیا کورس شامل کرنے یا موجودہ کو اپ ڈیٹ کرنے کا AJAX ہینڈلر۔
+ */
+public static function handle_save_course() {
+    check_ajax_referer( 'bssms_save_course', 'nonce' ); // نیا Nonce: bssms_save_course
+
+    // قاعدہ 4: current_user_can() (صرف ایڈمن)
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message_ur' => 'آپ کے پاس کورسز کو محفوظ کرنے کی اجازت نہیں ہے۔' ) );
+    }
+
+    // ڈیٹا کو سینیٹائز کریں
+    $id = absint( $_POST['course_id'] ?? 0 );
+    $data = array(
+        'course_name_en' => sanitize_text_field( wp_unslash( $_POST['course_name_en'] ?? '' ) ),
+        'course_name_ur' => sanitize_text_field( wp_unslash( $_POST['course_name_ur'] ?? '' ) ),
+        'course_fee'     => absint( $_POST['course_fee'] ?? 0 ),
+        'is_active'      => ( isset( $_POST['is_active'] ) && $_POST['is_active'] === 'on' ) ? 1 : 0,
+    );
+
+    // بنیادی جانچ
+    if ( empty( $data['course_name_en'] ) || $data['course_fee'] <= 0 ) {
+        wp_send_json_error( array( 'message_ur' => 'کورس کا نام اور فیس کی رقم ضروری ہے۔' ) );
+    }
+
+    $result = BSSMS_DB::save_course( $data, $id );
+
+    if ( $result ) {
+        $msg = ($id > 0) ? 'کورس کامیابی سے اپ ڈیٹ ہو گیا ہے۔' : 'نیا کورس کامیابی سے شامل کر دیا گیا ہے۔';
+        wp_send_json_success( array( 
+            'message_ur' => $msg, 
+            'id' => $result,
+            'is_new' => $id === 0,
+            'course_data' => array_merge(['id' => $result], $data)
+        ) );
+    } else {
+        wp_send_json_error( array( 'message_ur' => 'کورس محفوظ کرنے میں خرابی پیش آئی۔' ) );
+    }
+}
+
+/**
+ * کورس کو حذف کرنے کا AJAX ہینڈلر۔
+ */
+public static function handle_delete_course() {
+    check_ajax_referer( 'bssms_delete_course', 'nonce' ); // نیا Nonce: bssms_delete_course
+
+    // صرف ایڈمن کو حذف کرنے کی اجازت
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_send_json_error( array( 'message_ur' => 'آپ کے پاس کورس کو حذف کرنے کی اجازت نہیں ہے۔' ) );
+    }
+
+    $id = absint( $_POST['id'] ?? 0 );
+    $deleted = BSSMS_DB::delete_course( $id );
+
+    if ( $deleted === 1 ) {
+        wp_send_json_success( array( 
+            'message_ur' => 'کورس #' . $id . ' کامیابی سے حذف ہو گیا۔', 
+            'id' => $id 
+        ) );
+    } elseif ($deleted === 0) {
+        wp_send_json_error( array( 'message_ur' => 'ریکارڈ حذف کرنے میں خرابی یا کورس موجود نہیں تھا۔' ) );
+    } else {
+        wp_send_json_error( array( 'message_ur' => 'کورس حذف نہیں ہو سکا کیونکہ یہ پہلے سے طالب علم کے ریکارڈ میں استعمال ہو رہا ہے (اسے غیر فعال کر دیا گیا ہے)۔' ) );
+    }
+}
+
+// 🔴 یہاں پر مزید (AJAX) ہینڈلرز بعد میں شامل ہوں گے۔
+
+// ✅ Syntax verified block end
