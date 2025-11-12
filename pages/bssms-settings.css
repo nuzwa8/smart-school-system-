@@ -1,0 +1,160 @@
+/**
+ * bssms-settings.css
+ * سسٹم ترتیبات (System Settings) کے لیے سرشار اسٹائلز۔
+ * لے آؤٹ کے مطابق سائیڈ بار نیویگیشن اور ٹوگل اسٹائلنگ۔
+ */
+
+/* 🟢 یہاں سے Settings Setup Styles شروع ہو رہے ہیں */
+
+.bssms-settings-grid {
+    display: flex;
+    gap: var(--bssms-spacing-lg);
+}
+
+/* --- نیویگیشن سائیڈ بار --- */
+.bssms-nav-sidebar {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    padding: var(--bssms-spacing-sm);
+    border-radius: 6px;
+    background: var(--bssms-bg-card);
+    border: 1px solid var(--bssms-color-border);
+    /* لے آؤٹ کے مطابق بائیں طرف ایک ہلکی سی Shadow */
+    box-shadow: var(--bssms-shadow-sm); 
+}
+
+.bssms-nav-item {
+    background: none;
+    border: none;
+    text-align: left;
+    padding: var(--bssms-spacing-md);
+    margin-bottom: var(--bssms-spacing-xs);
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--bssms-color-text);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.bssms-nav-item:hover {
+    background-color: var(--bssms-bg-page);
+}
+
+.bssms-nav-item.active {
+    background-color: var(--bssms-color-primary);
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 115, 170, 0.3);
+}
+
+.bssms-nav-item .dashicons {
+    margin-right: var(--bssms-spacing-sm);
+}
+
+/* --- ترتیبات کا مواد --- */
+.bssms-settings-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--bssms-spacing-lg);
+}
+
+.bssms-setting-section {
+    padding: var(--bssms-spacing-lg);
+    display: none; /* JS ہینڈل کرتا ہے */
+}
+
+.bssms-setting-section .section-title {
+    color: var(--bssms-color-primary);
+    border-bottom: 2px solid var(--bssms-color-border);
+    padding-bottom: var(--bssms-spacing-sm);
+    margin-top: 0;
+}
+
+/* --- ٹوگلز اور کلر پکر --- */
+.bssms-toggle-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--bssms-spacing-sm) 0;
+    border-bottom: 1px dashed var(--bssms-color-border);
+    margin-bottom: var(--bssms-spacing-md);
+}
+
+/* کلر ان پٹ */
+.bssms-input-color {
+    width: 60px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid var(--bssms-color-border);
+    border-radius: 4px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+/* --- لوگو پریویو --- */
+.bssms-logo-preview {
+    display: flex;
+    align-items: center;
+    gap: var(--bssms-spacing-md);
+    margin-top: var(--bssms-spacing-sm);
+    padding: var(--bssms-spacing-sm);
+    border: 1px dashed var(--bssms-color-border);
+    border-radius: 4px;
+}
+
+/* --- ڈیفالٹس سیکشن بٹن --- */
+#settings-defaults .bssms-btn {
+    width: 100%;
+    margin-bottom: var(--bssms-spacing-sm);
+    text-align: center;
+}
+
+#btn-restore-defaults {
+    background-color: var(--bssms-color-error);
+    color: white;
+}
+#btn-restore-defaults:hover {
+    background-color: #c62828;
+}
+
+/* --- فارم ایکشنز (نیچے) --- */
+.bssms-settings-form .bssms-form-actions {
+    display: flex;
+    justify-content: flex-start; /* بائیں طرف */
+    gap: var(--bssms-spacing-md);
+    grid-column: 1 / -1;
+    padding: var(--bssms-spacing-md) 0;
+    border-top: 1px solid var(--bssms-color-border);
+    margin-top: var(--bssms-spacing-lg);
+}
+
+/* --- رسپانسیو سپورٹ --- */
+@media (max-width: 900px) {
+    .bssms-settings-grid {
+        flex-direction: column;
+    }
+
+    .bssms-nav-sidebar {
+        width: 100%;
+        flex-direction: row; /* چھوٹے سکرین پر اوپر کی طرف مینیو */
+        flex-wrap: wrap;
+        gap: var(--bssms-spacing-xs);
+        order: -1;
+    }
+
+    .bssms-nav-item {
+        flex-grow: 1;
+        text-align: center;
+        padding: var(--bssms-spacing-sm);
+    }
+}
+
+/* --- ڈارک موڈ ایڈجسٹمنٹس --- */
+body.bssms-dark-mode .bssms-nav-item:hover {
+    background-color: #383838;
+}
+
+/* 🔴 یہاں پر Settings Setup Styles ختم ہو رہے ہیں */
+
+/* ✅ Syntax verified block end */
